@@ -18,17 +18,17 @@ import io
 st.set_option('deprecation.showfileUploaderEncoding', False)
 # Get all type of resumes and its distribution
 
-def get_url(text):
-    regex = r"(?i)\b((?:https?://|www\d{0,3}[.]|[a-z0-9.\-]+[.][a-z]{2,4}/)(?:[^\s()<>]+|\(([^\s()<>]+|(\([^\s()<>]+\)))*\))+(?:\(([^\s()<>]+|(\([^\s()<>]+\)))*\)|[^\s`!()\[\]{};:'\".,<>?«»“”‘’]))"
-    url = re.findall(regex, text)
-    return [i[0] for i in url]
+# def get_url(text):
+#     regex = r"(?i)\b((?:https?://|www\d{0,3}[.]|[a-z0-9.\-]+[.][a-z]{2,4}/)(?:[^\s()<>]+|\(([^\s()<>]+|(\([^\s()<>]+\)))*\))+(?:\(([^\s()<>]+|(\([^\s()<>]+\)))*\)|[^\s`!()\[\]{};:'\".,<>?«»“”‘’]))"
+#     url = re.findall(regex, text)
+#     return [i[0] for i in url]
 
-def get_exp (text):
-    regex = r"\d*\.?\d+"
-    exp = re.findall(regex,text)
-    return [i[0] for i in exp]
+# def get_exp (text):
+#     regex = r"\d*\.?\d+"
+#     exp = re.findall(regex,text)
+#     return [i[0] for i in exp]
 
-st.sidebar.header('Resume part')
+st.sidebar.header('Resume parts')
 location = None
 uploaded_file = st.sidebar.file_uploader("choose resume", type="pdf")
 if uploaded_file is not None:
@@ -68,7 +68,7 @@ def create_profile(file):
     text = text.replace("\n", "")
     text = text.lower()
     # below is the csv where we have all the keywords, you can customize your own
-    keyword_dict = pd.read_csv(r"D:/Projects/NWOW/Resume_parser/keywords_template.csv", encoding='latin-1')
+    keyword_dict = pd.read_csv(r"D:/Projects/keywords_template.csv", encoding='latin-1')
     ML_words = [nlp(text) for text in keyword_dict['machine_learning'].dropna(axis=0)]
     DL_words = [nlp(text) for text in keyword_dict['deep_learning'].dropna(axis=0)]
     NLP_words = [nlp(text) for text in keyword_dict['nlp'].dropna(axis=0)]
@@ -132,7 +132,7 @@ final_database2.fillna(int(0),inplace=True)
 new_data = final_database2.iloc[:,1:]
 new_data.index = final_database2['Candidate Name']
 #execute the below line if you want to see the candidate profile in a csv format
-sample2 = new_data.to_excel(r"D:/Projects/NWOW/Resume_parser/candidate_skill_matrix_19sep.xlsx")
+sample2 = new_data.to_excel(r"D:/Projects/candidate_skill_matrix_19sep.xlsx")
 # st.dataframe(new_data.style.highlight_max(axis=0))
 st.dataframe(new_data,700,900)
 plt.rcParams.update({'font.size': 40})
@@ -152,5 +152,5 @@ for label, rect in zip(labels, patches):
         ax.text(x + width/2., y + height/2., label, ha='center', va='center')
 # plt.savefig('candidate_skills_19sep.jpg', dpi=300, transparent=True)
 # st.pyplot(ax)
-# st.pyplot(height=800,width=800)
+st.pyplot(height=800,width=800)
 
